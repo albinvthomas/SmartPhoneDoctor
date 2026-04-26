@@ -15,12 +15,17 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.smartphonedoctor.presentation.viewmodel.HomeViewModel
+import com.smartphonedoctor.presentation.viewmodel.ScanState
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -128,20 +133,45 @@ fun BottomNavigationBar(navController: NavHostController) {
 
 @Composable
 fun NavigationGraph(navController: NavHostController, modifier: Modifier = Modifier) {
+    val homeViewModel: HomeViewModel = hiltViewModel()
+    val uiState by homeViewModel.uiState.collectAsStateWithLifecycle()
+
     NavHost(navController, startDestination = BottomNavItem.Home.route, modifier = modifier) {
         composable(BottomNavItem.Home.route) { 
-            HomeScreen(onScanFinish = {
-                navController.navigate("health_score")
-            }) 
+            HomeScreen(
+                uiState = uiState,
+                onStartScan = { homeViewModel.startScan() },
+                onScanFinish = {
+                    navController.navigate("health_score")
+                }
+            ) 
         }
         composable("health_score") {
-            HealthScoreScreen(onSeeIssuesClick = {
-                navController.navigate(BottomNavItem.Issues.route) {
-                    popUpTo(navController.graph.findStartDestination().id) { inclusive = true }
-                }
-            })
+            val score = (uiState as? ScanState.Success)?.result?.healthScore
+            if (score != null) {
+                HealthScoreScreen(
+                    healthScore = score,
+                    onSeeIssuesClick = {
+                        navController.navigate(BottomNavItem.Issues.route) {
+                            popUpTo(navController.graph.findStartDestination().id) { inclusive = true }
+                        }
+                    }
+                )
+            } else {
+                // Should not happen, but fallback
+                HealthScoreScreen(
+                    onSeeIssuesClick = {
+                        navController.navigate(BottomNavItem.Issues.route) {
+                            popUpTo(navController.graph.findStartDestination().id) { inclusive = true }
+                        }
+                    }
+                )
+            }
         }
-        composable(BottomNavItem.Issues.route) { IssuesScreen() }
+        composable(BottomNavItem.Issues.route) { 
+            val issues = (uiState as? ScanState.Success)?.result?.issues ?: emptyList()
+            IssuesScreen(issues = issues) 
+        }
         composable(BottomNavItem.History.route) { HistoryScreen() }
         composable(BottomNavItem.Settings.route) { SettingsScreen() }
     }

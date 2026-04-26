@@ -1,5 +1,10 @@
 package com.smartphonedoctor;
 
+import androidx.hilt.work.HiltWrapper_WorkerFactoryModule;
+import com.smartphonedoctor.data.local.DatabaseModule;
+import com.smartphonedoctor.di.AppModule;
+import com.smartphonedoctor.domain.worker.WeeklyHealthScanWorker_HiltModule;
+import com.smartphonedoctor.presentation.viewmodel.HistoryViewModel_HiltModules;
 import dagger.Binds;
 import dagger.Component;
 import dagger.Module;
@@ -124,10 +129,14 @@ public final class SmartPhoneDoctorApp_HiltComponents {
 
   @Component(
       modules = {
+          AppModule.class,
           ApplicationContextModule.class,
+          DatabaseModule.class,
           HiltWrapper_FragmentGetContextFix_FragmentGetContextFixModule.class,
+          HiltWrapper_WorkerFactoryModule.class,
           ActivityRetainedCBuilderModule.class,
-          ServiceCBuilderModule.class
+          ServiceCBuilderModule.class,
+          WeeklyHealthScanWorker_HiltModule.class
       }
   )
   @Singleton
@@ -152,6 +161,7 @@ public final class SmartPhoneDoctorApp_HiltComponents {
       modules = {
           HiltWrapper_ActivityRetainedComponentManager_LifecycleModule.class,
           HiltWrapper_SavedStateHandleModule.class,
+          HistoryViewModel_HiltModules.KeyModule.class,
           ActivityCBuilderModule.class,
           ViewModelCBuilderModule.class
       }
@@ -188,7 +198,10 @@ public final class SmartPhoneDoctorApp_HiltComponents {
   }
 
   @Subcomponent(
-      modules = HiltWrapper_HiltViewModelFactory_ViewModelModule.class
+      modules = {
+          HiltWrapper_HiltViewModelFactory_ViewModelModule.class,
+          HistoryViewModel_HiltModules.BindsModule.class
+      }
   )
   @ViewModelScoped
   public abstract static class ViewModelC implements ViewModelComponent,

@@ -19,14 +19,38 @@ import com.smartphonedoctor.presentation.ui.theme.ColorAmber
 import com.smartphonedoctor.presentation.ui.theme.ColorGreen
 import com.smartphonedoctor.presentation.ui.theme.ColorRed
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CheckCircle
+
 @Composable
 fun IssuesScreen(
-    issues: List<Issue> = listOf(
-        Issue(Severity.CRITICAL, "Storage almost full", "Less than 10% free storage.", "Uninstall unused apps.", android.provider.Settings.ACTION_INTERNAL_STORAGE_SETTINGS),
-        Issue(Severity.WARNING, "TikTok drains battery", "App used heavily.", "Restrict background activity.", android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS),
-        Issue(Severity.INFO, "Unused App", "App not used in 30 days.", "Uninstall to free space.", null)
-    )
+    issues: List<Issue> = emptyList()
 ) {
+    if (issues.isEmpty()) {
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Icon(
+                    imageVector = Icons.Default.CheckCircle,
+                    contentDescription = "Healthy",
+                    modifier = Modifier.size(64.dp),
+                    tint = ColorGreen
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(
+                    text = "Your phone looks healthy!",
+                    style = MaterialTheme.typography.headlineMedium,
+                    fontWeight = FontWeight.Bold
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = "No critical issues found during the last scan.",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
+            }
+        }
+        return
+    }
     val groupedIssues = issues.groupBy { it.severity }
 
     LazyColumn(

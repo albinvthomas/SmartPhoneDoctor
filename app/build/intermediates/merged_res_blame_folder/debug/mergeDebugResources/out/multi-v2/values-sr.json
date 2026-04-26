@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.smartphonedoctor.app-mergeDebugResources-60:/values-sr/values-sr.xml",
+            "outputFile": "com.smartphonedoctor.app-mergeDebugResources-64:/values-sr/values-sr.xml",
             "map": [
                 {
                     "source": "C:\\Users\\albin\\.gradle\\caches\\8.13\\transforms\\096ccd92f4a98c829a7a6c3d89069036\\transformed\\material3-1.1.2\\res\\values-sr\\values-sr.xml",

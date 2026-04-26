@@ -12,10 +12,16 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 
+import com.smartphonedoctor.presentation.viewmodel.ScanState
+
 @Composable
-fun HomeScreen(onScanFinish: () -> Unit) {
-    var isScanning by remember { mutableStateOf(false) }
-    var scanStatusText by remember { mutableStateOf("") }
+fun HomeScreen(
+    uiState: ScanState,
+    onStartScan: () -> Unit,
+    onScanFinish: () -> Unit
+) {
+    val snackbarHostState = remember { SnackbarHostState() }
+
     
     val infiniteTransition = rememberInfiniteTransition(label = "pulse")
     val scale by infiniteTransition.animateFloat(
@@ -37,21 +43,17 @@ fun HomeScreen(onScanFinish: () -> Unit) {
         label = "alpha"
     )
 
-    LaunchedEffect(isScanning) {
-        if (isScanning) {
-            scanStatusText = "Analyzing battery..."
-            delay(1000)
-            scanStatusText = "Checking storage..."
-            delay(1000)
-            scanStatusText = "Calculating performance..."
-            delay(1000)
-            onScanFinish()
-            isScanning = false // Reset in case we come back
+    LaunchedEffect(uiState) {
+        when (uiState) {
+            is ScanState.Success -> onScanFinish()
+            is ScanState.Error -> snackbarHostState.showSnackbar(uiState.message)
+            else -> {}
         }
     }
 
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        if (isScanning) {
+    Box(modifier = Modifier.fillMaxSize()) {
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            if (uiState is ScanState.Scanning) {
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 CircularProgressIndicator(
                     modifier = Modifier.size(64.dp),
@@ -63,7 +65,7 @@ fun HomeScreen(onScanFinish: () -> Unit) {
                     color = MaterialTheme.colorScheme.primary
                 )
                 Spacer(modifier = Modifier.height(16.dp))
-                Text(text = scanStatusText, style = MaterialTheme.typography.bodyLarge)
+                Text(text = "Analyzing device health...", style = MaterialTheme.typography.bodyLarge)
             }
         } else {
             Box(contentAlignment = Alignment.Center) {
@@ -76,7 +78,7 @@ fun HomeScreen(onScanFinish: () -> Unit) {
                 )
                 
                 Button(
-                    onClick = { isScanning = true },
+                    onClick = onStartScan,
                     modifier = Modifier.size(160.dp),
                     shape = CircleShape,
                     colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
@@ -85,5 +87,10 @@ fun HomeScreen(onScanFinish: () -> Unit) {
                 }
             }
         }
+
+        SnackbarHost(
+            hostState = snackbarHostState,
+            modifier = Modifier.align(Alignment.BottomCenter).padding(16.dp)
+        )
     }
 }

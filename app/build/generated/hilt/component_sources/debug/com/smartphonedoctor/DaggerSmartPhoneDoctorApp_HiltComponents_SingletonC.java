@@ -2,10 +2,30 @@ package com.smartphonedoctor;
 
 import android.app.Activity;
 import android.app.Service;
+import android.content.Context;
 import android.view.View;
 import androidx.fragment.app.Fragment;
+import androidx.hilt.work.HiltWorkerFactory;
+import androidx.hilt.work.WorkerAssistedFactory;
+import androidx.hilt.work.WorkerFactoryModule_ProvideFactoryFactory;
 import androidx.lifecycle.SavedStateHandle;
 import androidx.lifecycle.ViewModel;
+import androidx.work.ListenableWorker;
+import androidx.work.WorkerParameters;
+import com.smartphonedoctor.data.DataCollector;
+import com.smartphonedoctor.data.local.AppDatabase;
+import com.smartphonedoctor.data.local.DatabaseModule_ProvideAppDatabaseFactory;
+import com.smartphonedoctor.data.local.DatabaseModule_ProvideScanResultDaoFactory;
+import com.smartphonedoctor.data.local.dao.ScanResultDao;
+import com.smartphonedoctor.di.AppModule_ProvideDataCollectorFactory;
+import com.smartphonedoctor.di.AppModule_ProvideHealthScoreCalculatorFactory;
+import com.smartphonedoctor.di.AppModule_ProvidePhoneHealthAnalyzerFactory;
+import com.smartphonedoctor.domain.HealthScoreCalculator;
+import com.smartphonedoctor.domain.PhoneHealthAnalyzer;
+import com.smartphonedoctor.domain.worker.WeeklyHealthScanWorker;
+import com.smartphonedoctor.domain.worker.WeeklyHealthScanWorker_AssistedFactory;
+import com.smartphonedoctor.presentation.viewmodel.HistoryViewModel;
+import com.smartphonedoctor.presentation.viewmodel.HistoryViewModel_HiltModules_KeyModule_ProvideFactory;
 import dagger.hilt.android.ActivityRetainedLifecycle;
 import dagger.hilt.android.ViewModelLifecycle;
 import dagger.hilt.android.internal.builders.ActivityComponentBuilder;
@@ -20,14 +40,16 @@ import dagger.hilt.android.internal.lifecycle.DefaultViewModelFactories_Internal
 import dagger.hilt.android.internal.managers.ActivityRetainedComponentManager_LifecycleModule_ProvideActivityRetainedLifecycleFactory;
 import dagger.hilt.android.internal.managers.SavedStateHandleHolder;
 import dagger.hilt.android.internal.modules.ApplicationContextModule;
+import dagger.hilt.android.internal.modules.ApplicationContextModule_ProvideContextFactory;
 import dagger.internal.DaggerGenerated;
 import dagger.internal.DoubleCheck;
 import dagger.internal.Preconditions;
+import dagger.internal.Provider;
+import dagger.internal.SingleCheck;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 import javax.annotation.processing.Generated;
-import javax.inject.Provider;
 
 @DaggerGenerated
 @Generated(
@@ -48,25 +70,20 @@ public final class DaggerSmartPhoneDoctorApp_HiltComponents_SingletonC {
     return new Builder();
   }
 
-  public static SmartPhoneDoctorApp_HiltComponents.SingletonC create() {
-    return new Builder().build();
-  }
-
   public static final class Builder {
+    private ApplicationContextModule applicationContextModule;
+
     private Builder() {
     }
 
-    /**
-     * @deprecated This module is declared, but an instance is not used in the component. This method is a no-op. For more, see https://dagger.dev/unused-modules.
-     */
-    @Deprecated
     public Builder applicationContextModule(ApplicationContextModule applicationContextModule) {
-      Preconditions.checkNotNull(applicationContextModule);
+      this.applicationContextModule = Preconditions.checkNotNull(applicationContextModule);
       return this;
     }
 
     public SmartPhoneDoctorApp_HiltComponents.SingletonC build() {
-      return new SingletonCImpl();
+      Preconditions.checkBuilderRequirement(applicationContextModule, ApplicationContextModule.class);
+      return new SingletonCImpl(applicationContextModule);
     }
   }
 
@@ -360,12 +377,12 @@ public final class DaggerSmartPhoneDoctorApp_HiltComponents_SingletonC {
 
     @Override
     public DefaultViewModelFactories.InternalFactoryFactory getHiltInternalFactoryFactory() {
-      return DefaultViewModelFactories_InternalFactoryFactory_Factory.newInstance(Collections.<String>emptySet(), new ViewModelCBuilder(singletonCImpl, activityRetainedCImpl));
+      return DefaultViewModelFactories_InternalFactoryFactory_Factory.newInstance(getViewModelKeys(), new ViewModelCBuilder(singletonCImpl, activityRetainedCImpl));
     }
 
     @Override
     public Set<String> getViewModelKeys() {
-      return Collections.<String>emptySet();
+      return Collections.<String>singleton(HistoryViewModel_HiltModules_KeyModule_ProvideFactory.provide());
     }
 
     @Override
@@ -391,23 +408,61 @@ public final class DaggerSmartPhoneDoctorApp_HiltComponents_SingletonC {
 
     private final ViewModelCImpl viewModelCImpl = this;
 
+    private Provider<HistoryViewModel> historyViewModelProvider;
+
     private ViewModelCImpl(SingletonCImpl singletonCImpl,
         ActivityRetainedCImpl activityRetainedCImpl, SavedStateHandle savedStateHandleParam,
         ViewModelLifecycle viewModelLifecycleParam) {
       this.singletonCImpl = singletonCImpl;
       this.activityRetainedCImpl = activityRetainedCImpl;
 
+      initialize(savedStateHandleParam, viewModelLifecycleParam);
 
     }
 
+    @SuppressWarnings("unchecked")
+    private void initialize(final SavedStateHandle savedStateHandleParam,
+        final ViewModelLifecycle viewModelLifecycleParam) {
+      this.historyViewModelProvider = new SwitchingProvider<>(singletonCImpl, activityRetainedCImpl, viewModelCImpl, 0);
+    }
+
     @Override
-    public Map<String, Provider<ViewModel>> getHiltViewModelMap() {
-      return Collections.<String, Provider<ViewModel>>emptyMap();
+    public Map<String, javax.inject.Provider<ViewModel>> getHiltViewModelMap() {
+      return Collections.<String, javax.inject.Provider<ViewModel>>singletonMap("com.smartphonedoctor.presentation.viewmodel.HistoryViewModel", ((Provider) historyViewModelProvider));
     }
 
     @Override
     public Map<String, Object> getHiltViewModelAssistedMap() {
       return Collections.<String, Object>emptyMap();
+    }
+
+    private static final class SwitchingProvider<T> implements Provider<T> {
+      private final SingletonCImpl singletonCImpl;
+
+      private final ActivityRetainedCImpl activityRetainedCImpl;
+
+      private final ViewModelCImpl viewModelCImpl;
+
+      private final int id;
+
+      SwitchingProvider(SingletonCImpl singletonCImpl, ActivityRetainedCImpl activityRetainedCImpl,
+          ViewModelCImpl viewModelCImpl, int id) {
+        this.singletonCImpl = singletonCImpl;
+        this.activityRetainedCImpl = activityRetainedCImpl;
+        this.viewModelCImpl = viewModelCImpl;
+        this.id = id;
+      }
+
+      @SuppressWarnings("unchecked")
+      @Override
+      public T get() {
+        switch (id) {
+          case 0: // com.smartphonedoctor.presentation.viewmodel.HistoryViewModel 
+          return (T) new HistoryViewModel(singletonCImpl.scanResultDao());
+
+          default: throw new AssertionError(id);
+        }
+      }
     }
   }
 
@@ -416,7 +471,7 @@ public final class DaggerSmartPhoneDoctorApp_HiltComponents_SingletonC {
 
     private final ActivityRetainedCImpl activityRetainedCImpl = this;
 
-    private dagger.internal.Provider<ActivityRetainedLifecycle> provideActivityRetainedLifecycleProvider;
+    private Provider<ActivityRetainedLifecycle> provideActivityRetainedLifecycleProvider;
 
     private ActivityRetainedCImpl(SingletonCImpl singletonCImpl,
         SavedStateHandleHolder savedStateHandleHolderParam) {
@@ -441,7 +496,7 @@ public final class DaggerSmartPhoneDoctorApp_HiltComponents_SingletonC {
       return provideActivityRetainedLifecycleProvider.get();
     }
 
-    private static final class SwitchingProvider<T> implements dagger.internal.Provider<T> {
+    private static final class SwitchingProvider<T> implements Provider<T> {
       private final SingletonCImpl singletonCImpl;
 
       private final ActivityRetainedCImpl activityRetainedCImpl;
@@ -481,15 +536,51 @@ public final class DaggerSmartPhoneDoctorApp_HiltComponents_SingletonC {
   }
 
   private static final class SingletonCImpl extends SmartPhoneDoctorApp_HiltComponents.SingletonC {
+    private final ApplicationContextModule applicationContextModule;
+
     private final SingletonCImpl singletonCImpl = this;
 
-    private SingletonCImpl() {
+    private Provider<DataCollector> provideDataCollectorProvider;
 
+    private Provider<HealthScoreCalculator> provideHealthScoreCalculatorProvider;
 
+    private Provider<PhoneHealthAnalyzer> providePhoneHealthAnalyzerProvider;
+
+    private Provider<AppDatabase> provideAppDatabaseProvider;
+
+    private Provider<WeeklyHealthScanWorker_AssistedFactory> weeklyHealthScanWorker_AssistedFactoryProvider;
+
+    private SingletonCImpl(ApplicationContextModule applicationContextModuleParam) {
+      this.applicationContextModule = applicationContextModuleParam;
+      initialize(applicationContextModuleParam);
+
+    }
+
+    private ScanResultDao scanResultDao() {
+      return DatabaseModule_ProvideScanResultDaoFactory.provideScanResultDao(provideAppDatabaseProvider.get());
+    }
+
+    private Map<String, javax.inject.Provider<WorkerAssistedFactory<? extends ListenableWorker>>> mapOfStringAndProviderOfWorkerAssistedFactoryOf(
+        ) {
+      return Collections.<String, javax.inject.Provider<WorkerAssistedFactory<? extends ListenableWorker>>>singletonMap("com.smartphonedoctor.domain.worker.WeeklyHealthScanWorker", ((Provider) weeklyHealthScanWorker_AssistedFactoryProvider));
+    }
+
+    private HiltWorkerFactory hiltWorkerFactory() {
+      return WorkerFactoryModule_ProvideFactoryFactory.provideFactory(mapOfStringAndProviderOfWorkerAssistedFactoryOf());
+    }
+
+    @SuppressWarnings("unchecked")
+    private void initialize(final ApplicationContextModule applicationContextModuleParam) {
+      this.provideDataCollectorProvider = DoubleCheck.provider(new SwitchingProvider<DataCollector>(singletonCImpl, 1));
+      this.provideHealthScoreCalculatorProvider = DoubleCheck.provider(new SwitchingProvider<HealthScoreCalculator>(singletonCImpl, 3));
+      this.providePhoneHealthAnalyzerProvider = DoubleCheck.provider(new SwitchingProvider<PhoneHealthAnalyzer>(singletonCImpl, 2));
+      this.provideAppDatabaseProvider = DoubleCheck.provider(new SwitchingProvider<AppDatabase>(singletonCImpl, 4));
+      this.weeklyHealthScanWorker_AssistedFactoryProvider = SingleCheck.provider(new SwitchingProvider<WeeklyHealthScanWorker_AssistedFactory>(singletonCImpl, 0));
     }
 
     @Override
     public void injectSmartPhoneDoctorApp(SmartPhoneDoctorApp smartPhoneDoctorApp) {
+      injectSmartPhoneDoctorApp2(smartPhoneDoctorApp);
     }
 
     @Override
@@ -505,6 +596,50 @@ public final class DaggerSmartPhoneDoctorApp_HiltComponents_SingletonC {
     @Override
     public ServiceComponentBuilder serviceComponentBuilder() {
       return new ServiceCBuilder(singletonCImpl);
+    }
+
+    private SmartPhoneDoctorApp injectSmartPhoneDoctorApp2(SmartPhoneDoctorApp instance) {
+      SmartPhoneDoctorApp_MembersInjector.injectWorkerFactory(instance, hiltWorkerFactory());
+      return instance;
+    }
+
+    private static final class SwitchingProvider<T> implements Provider<T> {
+      private final SingletonCImpl singletonCImpl;
+
+      private final int id;
+
+      SwitchingProvider(SingletonCImpl singletonCImpl, int id) {
+        this.singletonCImpl = singletonCImpl;
+        this.id = id;
+      }
+
+      @SuppressWarnings("unchecked")
+      @Override
+      public T get() {
+        switch (id) {
+          case 0: // com.smartphonedoctor.domain.worker.WeeklyHealthScanWorker_AssistedFactory 
+          return (T) new WeeklyHealthScanWorker_AssistedFactory() {
+            @Override
+            public WeeklyHealthScanWorker create(Context context, WorkerParameters workerParams) {
+              return new WeeklyHealthScanWorker(context, workerParams, singletonCImpl.provideDataCollectorProvider.get(), singletonCImpl.providePhoneHealthAnalyzerProvider.get(), singletonCImpl.scanResultDao());
+            }
+          };
+
+          case 1: // com.smartphonedoctor.data.DataCollector 
+          return (T) AppModule_ProvideDataCollectorFactory.provideDataCollector(ApplicationContextModule_ProvideContextFactory.provideContext(singletonCImpl.applicationContextModule));
+
+          case 2: // com.smartphonedoctor.domain.PhoneHealthAnalyzer 
+          return (T) AppModule_ProvidePhoneHealthAnalyzerFactory.providePhoneHealthAnalyzer(singletonCImpl.provideHealthScoreCalculatorProvider.get());
+
+          case 3: // com.smartphonedoctor.domain.HealthScoreCalculator 
+          return (T) AppModule_ProvideHealthScoreCalculatorFactory.provideHealthScoreCalculator();
+
+          case 4: // com.smartphonedoctor.data.local.AppDatabase 
+          return (T) DatabaseModule_ProvideAppDatabaseFactory.provideAppDatabase(ApplicationContextModule_ProvideContextFactory.provideContext(singletonCImpl.applicationContextModule));
+
+          default: throw new AssertionError(id);
+        }
+      }
     }
   }
 }
