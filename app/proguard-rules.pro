@@ -1,0 +1,2 @@
+-keep class com.smartphonedoctor.domain.model.** { *; }
+-keep class com.smartphonedoctor.data.local.entity.** { *; }
