@@ -87,6 +87,7 @@ fun HomeScreen(
                 }
             }
         }
+        }
 
         SnackbarHost(
             hostState = snackbarHostState,

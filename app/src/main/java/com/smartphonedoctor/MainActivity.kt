@@ -15,7 +15,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -23,11 +22,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.smartphonedoctor.presentation.viewmodel.HomeViewModel
-import com.smartphonedoctor.presentation.viewmodel.ScanState
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -42,6 +39,8 @@ import com.smartphonedoctor.presentation.screens.IssuesScreen
 import com.smartphonedoctor.presentation.screens.PermissionOnboardingScreen
 import com.smartphonedoctor.presentation.screens.SettingsScreen
 import com.smartphonedoctor.presentation.ui.theme.SmartPhoneDoctorTheme
+import com.smartphonedoctor.presentation.viewmodel.HomeViewModel
+import com.smartphonedoctor.presentation.viewmodel.ScanState
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
