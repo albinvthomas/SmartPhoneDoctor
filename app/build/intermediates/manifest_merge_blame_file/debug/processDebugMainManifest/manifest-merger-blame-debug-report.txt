@@ -1,0 +1,184 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.smartphonedoctor"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="26"
+9        android:targetSdkVersion="34" />
+10
+11    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS" />
+11-->C:\Users\albin\SmartPhoneDoctor\app\src\main\AndroidManifest.xml:5:5-6:47
+11-->C:\Users\albin\SmartPhoneDoctor\app\src\main\AndroidManifest.xml:5:22-75
+12    <uses-permission android:name="android.permission.BATTERY_STATS" />
+12-->C:\Users\albin\SmartPhoneDoctor\app\src\main\AndroidManifest.xml:7:5-8:47
+12-->C:\Users\albin\SmartPhoneDoctor\app\src\main\AndroidManifest.xml:7:22-69
+13    <uses-permission
+13-->C:\Users\albin\SmartPhoneDoctor\app\src\main\AndroidManifest.xml:9:5-10:38
+14        android:name="android.permission.READ_EXTERNAL_STORAGE"
+14-->C:\Users\albin\SmartPhoneDoctor\app\src\main\AndroidManifest.xml:9:22-77
+15        android:maxSdkVersion="32" />
+15-->C:\Users\albin\SmartPhoneDoctor\app\src\main\AndroidManifest.xml:10:9-35
+16
+17    <!-- Photo and Video access for Android 13+ (API 33+) -->
+18    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+18-->C:\Users\albin\SmartPhoneDoctor\app\src\main\AndroidManifest.xml:13:5-76
+18-->C:\Users\albin\SmartPhoneDoctor\app\src\main\AndroidManifest.xml:13:22-73
+19    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+19-->C:\Users\albin\SmartPhoneDoctor\app\src\main\AndroidManifest.xml:14:5-75
+19-->C:\Users\albin\SmartPhoneDoctor\app\src\main\AndroidManifest.xml:14:22-72
+20    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
+20-->C:\Users\albin\SmartPhoneDoctor\app\src\main\AndroidManifest.xml:15:5-75
+20-->C:\Users\albin\SmartPhoneDoctor\app\src\main\AndroidManifest.xml:15:22-72
+21
+22    <!-- Selected Photos Access for Android 14+ (API 34+) -->
+23    <uses-permission android:name="android.permission.READ_MEDIA_VISUAL_USER_SELECTED" />
+23-->C:\Users\albin\SmartPhoneDoctor\app\src\main\AndroidManifest.xml:18:5-90
+23-->C:\Users\albin\SmartPhoneDoctor\app\src\main\AndroidManifest.xml:18:22-87
+24
+25    <permission
+25-->[androidx.core:core:1.12.0] C:\Users\albin\.gradle\caches\8.13\transforms\088d232b8898d6671ec3c04b8f2f5cd4\transformed\core-1.12.0\AndroidManifest.xml:22:5-24:47
+26        android:name="com.smartphonedoctor.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+26-->[androidx.core:core:1.12.0] C:\Users\albin\.gradle\caches\8.13\transforms\088d232b8898d6671ec3c04b8f2f5cd4\transformed\core-1.12.0\AndroidManifest.xml:23:9-81
+27        android:protectionLevel="signature" />
+27-->[androidx.core:core:1.12.0] C:\Users\albin\.gradle\caches\8.13\transforms\088d232b8898d6671ec3c04b8f2f5cd4\transformed\core-1.12.0\AndroidManifest.xml:24:9-44
+28
+29    <uses-permission android:name="com.smartphonedoctor.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+29-->[androidx.core:core:1.12.0] C:\Users\albin\.gradle\caches\8.13\transforms\088d232b8898d6671ec3c04b8f2f5cd4\transformed\core-1.12.0\AndroidManifest.xml:26:5-97
+29-->[androidx.core:core:1.12.0] C:\Users\albin\.gradle\caches\8.13\transforms\088d232b8898d6671ec3c04b8f2f5cd4\transformed\core-1.12.0\AndroidManifest.xml:26:22-94
+30
+31    <application
+31-->C:\Users\albin\SmartPhoneDoctor\app\src\main\AndroidManifest.xml:20:5-40:19
+32        android:name="com.smartphonedoctor.SmartPhoneDoctorApp"
+32-->C:\Users\albin\SmartPhoneDoctor\app\src\main\AndroidManifest.xml:21:9-44
+33        android:allowBackup="true"
+33-->C:\Users\albin\SmartPhoneDoctor\app\src\main\AndroidManifest.xml:22:9-35
+34        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+34-->[androidx.core:core:1.12.0] C:\Users\albin\.gradle\caches\8.13\transforms\088d232b8898d6671ec3c04b8f2f5cd4\transformed\core-1.12.0\AndroidManifest.xml:28:18-86
+35        android:dataExtractionRules="@xml/data_extraction_rules"
+35-->C:\Users\albin\SmartPhoneDoctor\app\src\main\AndroidManifest.xml:23:9-65
+36        android:debuggable="true"
+37        android:extractNativeLibs="false"
+38        android:fullBackupContent="@xml/backup_rules"
+38-->C:\Users\albin\SmartPhoneDoctor\app\src\main\AndroidManifest.xml:24:9-54
+39        android:icon="@mipmap/ic_launcher"
+39-->C:\Users\albin\SmartPhoneDoctor\app\src\main\AndroidManifest.xml:25:9-43
+40        android:label="@string/app_name"
+40-->C:\Users\albin\SmartPhoneDoctor\app\src\main\AndroidManifest.xml:26:9-41
+41        android:roundIcon="@mipmap/ic_launcher_round"
+41-->C:\Users\albin\SmartPhoneDoctor\app\src\main\AndroidManifest.xml:27:9-54
+42        android:supportsRtl="true"
+42-->C:\Users\albin\SmartPhoneDoctor\app\src\main\AndroidManifest.xml:28:9-35
+43        android:theme="@style/Theme.SmartPhoneDoctor" >
+43-->C:\Users\albin\SmartPhoneDoctor\app\src\main\AndroidManifest.xml:29:9-54
+44        <activity
+44-->C:\Users\albin\SmartPhoneDoctor\app\src\main\AndroidManifest.xml:31:9-39:20
+45            android:name="com.smartphonedoctor.MainActivity"
+45-->C:\Users\albin\SmartPhoneDoctor\app\src\main\AndroidManifest.xml:32:13-41
+46            android:exported="true"
+46-->C:\Users\albin\SmartPhoneDoctor\app\src\main\AndroidManifest.xml:33:13-36
+47            android:theme="@style/Theme.SmartPhoneDoctor" >
+47-->C:\Users\albin\SmartPhoneDoctor\app\src\main\AndroidManifest.xml:34:13-58
+48            <intent-filter>
+48-->C:\Users\albin\SmartPhoneDoctor\app\src\main\AndroidManifest.xml:35:13-38:29
+49                <action android:name="android.intent.action.MAIN" />
+49-->C:\Users\albin\SmartPhoneDoctor\app\src\main\AndroidManifest.xml:36:17-69
+49-->C:\Users\albin\SmartPhoneDoctor\app\src\main\AndroidManifest.xml:36:25-66
+50
+51                <category android:name="android.intent.action.LAUNCHER" />
+51-->C:\Users\albin\SmartPhoneDoctor\app\src\main\AndroidManifest.xml:37:17-75
+51-->C:\Users\albin\SmartPhoneDoctor\app\src\main\AndroidManifest.xml:37:27-72
+52            </intent-filter>
+53        </activity>
+54        <activity
+54-->[androidx.compose.ui:ui-tooling-android:1.6.0] C:\Users\albin\.gradle\caches\8.13\transforms\cc750e887e125324f05018eee28454ee\transformed\ui-tooling-release\AndroidManifest.xml:23:9-25:39
+55            android:name="androidx.compose.ui.tooling.PreviewActivity"
+55-->[androidx.compose.ui:ui-tooling-android:1.6.0] C:\Users\albin\.gradle\caches\8.13\transforms\cc750e887e125324f05018eee28454ee\transformed\ui-tooling-release\AndroidManifest.xml:24:13-71
+56            android:exported="true" />
+56-->[androidx.compose.ui:ui-tooling-android:1.6.0] C:\Users\albin\.gradle\caches\8.13\transforms\cc750e887e125324f05018eee28454ee\transformed\ui-tooling-release\AndroidManifest.xml:25:13-36
+57
+58        <provider
+58-->[androidx.emoji2:emoji2:1.3.0] C:\Users\albin\.gradle\caches\8.13\transforms\a0fc7d75eada61fdbc2363a2fba165d9\transformed\emoji2-1.3.0\AndroidManifest.xml:24:9-32:20
+59            android:name="androidx.startup.InitializationProvider"
+59-->[androidx.emoji2:emoji2:1.3.0] C:\Users\albin\.gradle\caches\8.13\transforms\a0fc7d75eada61fdbc2363a2fba165d9\transformed\emoji2-1.3.0\AndroidManifest.xml:25:13-67
+60            android:authorities="com.smartphonedoctor.androidx-startup"
+60-->[androidx.emoji2:emoji2:1.3.0] C:\Users\albin\.gradle\caches\8.13\transforms\a0fc7d75eada61fdbc2363a2fba165d9\transformed\emoji2-1.3.0\AndroidManifest.xml:26:13-68
+61            android:exported="false" >
+61-->[androidx.emoji2:emoji2:1.3.0] C:\Users\albin\.gradle\caches\8.13\transforms\a0fc7d75eada61fdbc2363a2fba165d9\transformed\emoji2-1.3.0\AndroidManifest.xml:27:13-37
+62            <meta-data
+62-->[androidx.emoji2:emoji2:1.3.0] C:\Users\albin\.gradle\caches\8.13\transforms\a0fc7d75eada61fdbc2363a2fba165d9\transformed\emoji2-1.3.0\AndroidManifest.xml:29:13-31:52
+63                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+63-->[androidx.emoji2:emoji2:1.3.0] C:\Users\albin\.gradle\caches\8.13\transforms\a0fc7d75eada61fdbc2363a2fba165d9\transformed\emoji2-1.3.0\AndroidManifest.xml:30:17-75
+64                android:value="androidx.startup" />
+64-->[androidx.emoji2:emoji2:1.3.0] C:\Users\albin\.gradle\caches\8.13\transforms\a0fc7d75eada61fdbc2363a2fba165d9\transformed\emoji2-1.3.0\AndroidManifest.xml:31:17-49
+65            <meta-data
+65-->[androidx.lifecycle:lifecycle-process:2.7.0] C:\Users\albin\.gradle\caches\8.13\transforms\17a22b664d9672e8cf1c0a972df41f05\transformed\lifecycle-process-2.7.0\AndroidManifest.xml:29:13-31:52
+66                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+66-->[androidx.lifecycle:lifecycle-process:2.7.0] C:\Users\albin\.gradle\caches\8.13\transforms\17a22b664d9672e8cf1c0a972df41f05\transformed\lifecycle-process-2.7.0\AndroidManifest.xml:30:17-78
+67                android:value="androidx.startup" />
+67-->[androidx.lifecycle:lifecycle-process:2.7.0] C:\Users\albin\.gradle\caches\8.13\transforms\17a22b664d9672e8cf1c0a972df41f05\transformed\lifecycle-process-2.7.0\AndroidManifest.xml:31:17-49
+68            <meta-data
+68-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\albin\.gradle\caches\8.13\transforms\1f26487c4bd3393b565775aca458c463\transformed\profileinstaller-1.3.0\AndroidManifest.xml:29:13-31:52
+69                android:name="androidx.profileinstaller.ProfileInstallerInitializer"
+69-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\albin\.gradle\caches\8.13\transforms\1f26487c4bd3393b565775aca458c463\transformed\profileinstaller-1.3.0\AndroidManifest.xml:30:17-85
+70                android:value="androidx.startup" />
+70-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\albin\.gradle\caches\8.13\transforms\1f26487c4bd3393b565775aca458c463\transformed\profileinstaller-1.3.0\AndroidManifest.xml:31:17-49
+71        </provider>
+72
+73        <activity
+73-->[androidx.compose.ui:ui-test-manifest:1.6.0] C:\Users\albin\.gradle\caches\8.13\transforms\9790dc6c20cc9e86e59e95dece7fc0d6\transformed\ui-test-manifest-1.6.0\AndroidManifest.xml:23:9-25:39
+74            android:name="androidx.activity.ComponentActivity"
+74-->[androidx.compose.ui:ui-test-manifest:1.6.0] C:\Users\albin\.gradle\caches\8.13\transforms\9790dc6c20cc9e86e59e95dece7fc0d6\transformed\ui-test-manifest-1.6.0\AndroidManifest.xml:24:13-63
+75            android:exported="true" />
+75-->[androidx.compose.ui:ui-test-manifest:1.6.0] C:\Users\albin\.gradle\caches\8.13\transforms\9790dc6c20cc9e86e59e95dece7fc0d6\transformed\ui-test-manifest-1.6.0\AndroidManifest.xml:25:13-36
+76
+77        <service
+77-->[androidx.room:room-runtime:2.6.1] C:\Users\albin\.gradle\caches\8.13\transforms\d0883a2a008311c373d32dfc2f3004d2\transformed\room-runtime-2.6.1\AndroidManifest.xml:24:9-28:63
+78            android:name="androidx.room.MultiInstanceInvalidationService"
+78-->[androidx.room:room-runtime:2.6.1] C:\Users\albin\.gradle\caches\8.13\transforms\d0883a2a008311c373d32dfc2f3004d2\transformed\room-runtime-2.6.1\AndroidManifest.xml:25:13-74
+79            android:directBootAware="true"
+79-->[androidx.room:room-runtime:2.6.1] C:\Users\albin\.gradle\caches\8.13\transforms\d0883a2a008311c373d32dfc2f3004d2\transformed\room-runtime-2.6.1\AndroidManifest.xml:26:13-43
+80            android:exported="false" />
+80-->[androidx.room:room-runtime:2.6.1] C:\Users\albin\.gradle\caches\8.13\transforms\d0883a2a008311c373d32dfc2f3004d2\transformed\room-runtime-2.6.1\AndroidManifest.xml:27:13-37
+81
+82        <receiver
+82-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\albin\.gradle\caches\8.13\transforms\1f26487c4bd3393b565775aca458c463\transformed\profileinstaller-1.3.0\AndroidManifest.xml:34:9-52:20
+83            android:name="androidx.profileinstaller.ProfileInstallReceiver"
+83-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\albin\.gradle\caches\8.13\transforms\1f26487c4bd3393b565775aca458c463\transformed\profileinstaller-1.3.0\AndroidManifest.xml:35:13-76
+84            android:directBootAware="false"
+84-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\albin\.gradle\caches\8.13\transforms\1f26487c4bd3393b565775aca458c463\transformed\profileinstaller-1.3.0\AndroidManifest.xml:36:13-44
+85            android:enabled="true"
+85-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\albin\.gradle\caches\8.13\transforms\1f26487c4bd3393b565775aca458c463\transformed\profileinstaller-1.3.0\AndroidManifest.xml:37:13-35
+86            android:exported="true"
+86-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\albin\.gradle\caches\8.13\transforms\1f26487c4bd3393b565775aca458c463\transformed\profileinstaller-1.3.0\AndroidManifest.xml:38:13-36
+87            android:permission="android.permission.DUMP" >
+87-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\albin\.gradle\caches\8.13\transforms\1f26487c4bd3393b565775aca458c463\transformed\profileinstaller-1.3.0\AndroidManifest.xml:39:13-57
+88            <intent-filter>
+88-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\albin\.gradle\caches\8.13\transforms\1f26487c4bd3393b565775aca458c463\transformed\profileinstaller-1.3.0\AndroidManifest.xml:40:13-42:29
+89                <action android:name="androidx.profileinstaller.action.INSTALL_PROFILE" />
+89-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\albin\.gradle\caches\8.13\transforms\1f26487c4bd3393b565775aca458c463\transformed\profileinstaller-1.3.0\AndroidManifest.xml:41:17-91
+89-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\albin\.gradle\caches\8.13\transforms\1f26487c4bd3393b565775aca458c463\transformed\profileinstaller-1.3.0\AndroidManifest.xml:41:25-88
+90            </intent-filter>
+91            <intent-filter>
+91-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\albin\.gradle\caches\8.13\transforms\1f26487c4bd3393b565775aca458c463\transformed\profileinstaller-1.3.0\AndroidManifest.xml:43:13-45:29
+92                <action android:name="androidx.profileinstaller.action.SKIP_FILE" />
+92-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\albin\.gradle\caches\8.13\transforms\1f26487c4bd3393b565775aca458c463\transformed\profileinstaller-1.3.0\AndroidManifest.xml:44:17-85
+92-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\albin\.gradle\caches\8.13\transforms\1f26487c4bd3393b565775aca458c463\transformed\profileinstaller-1.3.0\AndroidManifest.xml:44:25-82
+93            </intent-filter>
+94            <intent-filter>
+94-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\albin\.gradle\caches\8.13\transforms\1f26487c4bd3393b565775aca458c463\transformed\profileinstaller-1.3.0\AndroidManifest.xml:46:13-48:29
+95                <action android:name="androidx.profileinstaller.action.SAVE_PROFILE" />
+95-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\albin\.gradle\caches\8.13\transforms\1f26487c4bd3393b565775aca458c463\transformed\profileinstaller-1.3.0\AndroidManifest.xml:47:17-88
+95-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\albin\.gradle\caches\8.13\transforms\1f26487c4bd3393b565775aca458c463\transformed\profileinstaller-1.3.0\AndroidManifest.xml:47:25-85
+96            </intent-filter>
+97            <intent-filter>
+97-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\albin\.gradle\caches\8.13\transforms\1f26487c4bd3393b565775aca458c463\transformed\profileinstaller-1.3.0\AndroidManifest.xml:49:13-51:29
+98                <action android:name="androidx.profileinstaller.action.BENCHMARK_OPERATION" />
+98-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\albin\.gradle\caches\8.13\transforms\1f26487c4bd3393b565775aca458c463\transformed\profileinstaller-1.3.0\AndroidManifest.xml:50:17-95
+98-->[androidx.profileinstaller:profileinstaller:1.3.0] C:\Users\albin\.gradle\caches\8.13\transforms\1f26487c4bd3393b565775aca458c463\transformed\profileinstaller-1.3.0\AndroidManifest.xml:50:25-92
+99            </intent-filter>
+100        </receiver>
+101    </application>
+102
+103</manifest>
