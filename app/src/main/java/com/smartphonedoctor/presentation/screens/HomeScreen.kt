@@ -62,7 +62,8 @@ fun HomeScreen(
             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                 CircularProgressIndicator(
                     modifier = Modifier.size(64.dp),
-                    color = MaterialTheme.colorScheme.primary
+                    color = MaterialTheme.colorScheme.primary,
+                    strokeWidth = 4.dp
                 )
                 Spacer(modifier = Modifier.height(24.dp))
                 LinearProgressIndicator(
