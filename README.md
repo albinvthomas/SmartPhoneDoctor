@@ -4,7 +4,7 @@
 
 **Scan your phone. Find problems. Get exact fixes.**
 
-[![Download App](https://img.shields.io/badge/Download_APK_v1.0.0-2EA043?style=for-the-badge&logo=android&logoColor=white)](https://github.com/albinvthomas/SmartPhoneDoctor/releases/download/v1.0.0/app-debug.apk)
+[![Download App](https://img.shields.io/badge/Download_APK_v1.3.0-2EA043?style=for-the-badge&logo=android&logoColor=white)](https://github.com/albinvthomas/SmartPhoneDoctor/releases/download/v1.3.0/app-debug.apk)
 
 ![Android Version](https://img.shields.io/badge/Android-8.0%2B-3DDC84?style=flat-square&logo=android)
 ![Kotlin](https://img.shields.io/badge/Kotlin-7F52FF?style=flat-square&logo=kotlin)
