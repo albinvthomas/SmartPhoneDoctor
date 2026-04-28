@@ -67,6 +67,18 @@ fun HomeScreen(
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(text = "Analyzing device health...", style = MaterialTheme.typography.bodyLarge)
             }
+        } else if (uiState is ScanState.Error) {
+            Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                Text(
+                    text = "Error: ${uiState.message}",
+                    color = MaterialTheme.colorScheme.error,
+                    modifier = Modifier.padding(16.dp)
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                Button(onClick = onStartScan) {
+                    Text("Try Again")
+                }
+            }
         } else {
             Box(contentAlignment = Alignment.Center) {
                 // Pulsing ring

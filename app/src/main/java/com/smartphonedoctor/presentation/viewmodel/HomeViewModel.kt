@@ -13,6 +13,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 import com.smartphonedoctor.data.local.dao.ScanResultDao
 import com.smartphonedoctor.data.local.entity.ScanResultEntity
+import android.util.Log
 
 sealed class ScanState {
     object Idle : ScanState()
@@ -35,25 +36,10 @@ class HomeViewModel @Inject constructor(
         _uiState.value = ScanState.Scanning
         viewModelScope.launch {
             try {
-                val batteryInfo = dataCollector.collectBatteryInfo().let {
-                    if (it is com.smartphonedoctor.domain.model.Result.Success) it.data
-                    else throw Exception("Battery info collection failed")
-                }
-                
-                val usageStats = dataCollector.collectUsageStats().let {
-                    if (it is com.smartphonedoctor.domain.model.Result.Success) it.data
-                    else emptyList()
-                }
-                
-                val storageInfo = dataCollector.collectStorageStats().let {
-                    if (it is com.smartphonedoctor.domain.model.Result.Success) it.data
-                    else throw Exception("Storage info collection failed")
-                }
-                
-                val activityInfo = dataCollector.collectActivityInfo().let {
-                    if (it is com.smartphonedoctor.domain.model.Result.Success) it.data
-                    else throw Exception("Activity info collection failed")
-                }
+                val batteryInfo = dataCollector.collectBatteryInfo()
+                val usageStats = dataCollector.collectUsageStats()
+                val storageInfo = dataCollector.collectStorageStats()
+                val activityInfo = dataCollector.collectActivityInfo()
 
                 val scanResult = phoneHealthAnalyzer.analyze(
                     batteryInfo = batteryInfo,
@@ -74,8 +60,12 @@ class HomeViewModel @Inject constructor(
                 )
                 
                 _uiState.value = ScanState.Success(scanResult)
+            } catch (e: SecurityException) {
+                Log.e("SmartPhoneDoctor", "PERMISSION DENIED: ${e.message}", e)
+                _uiState.value = ScanState.Error("Permission denied: ${e.message}")
             } catch (e: Exception) {
-                _uiState.value = ScanState.Error(e.message ?: "Scan failed")
+                Log.e("SmartPhoneDoctor", "SCAN CRASH: ${e.message}", e)
+                _uiState.value = ScanState.Error(e.message ?: "Unknown crash")
             }
         }
     }

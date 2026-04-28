@@ -11,6 +11,7 @@ import android.os.BatteryManager
 import android.os.Environment
 import android.os.StatFs
 import android.os.storage.StorageManager
+import android.util.Log
 import com.smartphonedoctor.domain.model.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -44,6 +45,7 @@ class DataCollector(private val context: Context) {
                 )
             )
         } catch (e: Exception) {
+            Log.e("SmartPhoneDoctor", "BatteryInfo failed: ${e.message}", e)
             Result.Success(
                 BatteryInfo(
                     level = 100,
@@ -90,8 +92,10 @@ class DataCollector(private val context: Context) {
             
             Result.Success(appUsageList)
         } catch (e: SecurityException) {
+            Log.e("SmartPhoneDoctor", "AppUsage SecurityException: ${e.message}", e)
             Result.Success(emptyList())
         } catch (e: Exception) {
+            Log.e("SmartPhoneDoctor", "AppUsage failed: ${e.message}", e)
             Result.Success(emptyList())
         }
     }
@@ -115,6 +119,7 @@ class DataCollector(private val context: Context) {
                         )
                     )
                 } catch (e: Exception) {
+                    Log.e("SmartPhoneDoctor", "Storage stats for ${appInfo.packageName} failed: ${e.message}", e)
                     // Ignore if stats cannot be accessed for this specific package
                 }
             }
@@ -136,8 +141,10 @@ class DataCollector(private val context: Context) {
                 )
             )
         } catch (e: SecurityException) {
+            Log.e("SmartPhoneDoctor", "Storage SecurityException: ${e.message}", e)
             Result.Success(DeviceStorageInfo(totalBytes = 1L, freeBytes = 1L, appStats = emptyList()))
         } catch (e: Exception) {
+            Log.e("SmartPhoneDoctor", "Storage failed: ${e.message}", e)
             Result.Success(DeviceStorageInfo(totalBytes = 1L, freeBytes = 1L, appStats = emptyList()))
         }
     }
@@ -160,6 +167,7 @@ class DataCollector(private val context: Context) {
                 )
             )
         } catch (e: Exception) {
+            Log.e("SmartPhoneDoctor", "ActivityInfo failed: ${e.message}", e)
             Result.Success(ActivityInfo(emptyList(), 0))
         }
     }

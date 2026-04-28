@@ -1,6 +1,7 @@
 package com.smartphonedoctor.domain
 
 import android.provider.Settings
+import android.util.Log
 import com.smartphonedoctor.domain.model.*
 
 class PhoneHealthAnalyzer(
@@ -12,7 +13,8 @@ class PhoneHealthAnalyzer(
         storageInfo: Result<DeviceStorageInfo>,
         activityInfo: Result<ActivityInfo>
     ): ScanResult {
-        val issues = mutableListOf<Issue>()
+        return try {
+            val issues = mutableListOf<Issue>()
 
         // 1. REAL BATTERY check: temp > 37f OR level < 20
         if (batteryInfo is Result.Success) {
@@ -98,9 +100,16 @@ class PhoneHealthAnalyzer(
             }
         }
 
-        val healthScore = healthScoreCalculator.calculate(batteryInfo, storageInfo, activityInfo, issues)
+            val healthScore = healthScoreCalculator.calculate(batteryInfo, storageInfo, activityInfo, issues)
 
-        return ScanResult(issues, healthScore)
+            ScanResult(issues, healthScore)
+        } catch (e: Exception) {
+            Log.e("SmartPhoneDoctor", "Analyzer failed: ${e.message}", e)
+            ScanResult(
+                healthScore = HealthScore(overallScore=0, batteryScore=0, storageScore=0, perfScore=0),
+                issues = emptyList()
+            )
+        }
     }
 
     private fun formatSize(bytes: Long): String = when {
