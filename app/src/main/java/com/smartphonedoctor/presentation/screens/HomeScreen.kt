@@ -10,9 +10,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.platform.LocalContext
+import android.content.Intent
+import android.provider.Settings
 import kotlinx.coroutines.delay
 
 import com.smartphonedoctor.presentation.viewmodel.ScanState
+import com.smartphonedoctor.util.PermissionHelper
 
 @Composable
 fun HomeScreen(
@@ -21,7 +25,8 @@ fun HomeScreen(
     onScanFinish: () -> Unit
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
-
+    var showPermissionDialog by remember { mutableStateOf(false) }
+    val context = LocalContext.current
     
     val infiniteTransition = rememberInfiniteTransition(label = "pulse")
     val scale by infiniteTransition.animateFloat(
@@ -90,7 +95,13 @@ fun HomeScreen(
                 )
                 
                 Button(
-                    onClick = onStartScan,
+                    onClick = {
+                        if (PermissionHelper.hasUsageStatsPermission(context)) {
+                            onStartScan()
+                        } else {
+                            showPermissionDialog = true
+                        }
+                    },
                     modifier = Modifier.size(160.dp),
                     shape = CircleShape,
                     colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
@@ -105,5 +116,24 @@ fun HomeScreen(
             hostState = snackbarHostState,
             modifier = Modifier.align(Alignment.BottomCenter).padding(16.dp)
         )
+        
+        if (showPermissionDialog) {
+            AlertDialog(
+                onDismissRequest = { showPermissionDialog = false },
+                title = { Text("Permission Required") },
+                text = { Text("SmartPhoneDoctor needs Usage Access permission to analyze your apps. Tap OK to open Settings, then enable SmartPhoneDoctor.") },
+                confirmButton = {
+                    TextButton(onClick = {
+                        showPermissionDialog = false
+                        context.startActivity(Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS))
+                    }) { Text("Open Settings") }
+                },
+                dismissButton = {
+                    TextButton(onClick = { showPermissionDialog = false }) { 
+                        Text("Cancel") 
+                    }
+                }
+            )
+        }
     }
 }

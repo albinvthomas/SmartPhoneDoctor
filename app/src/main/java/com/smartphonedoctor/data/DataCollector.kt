@@ -58,6 +58,11 @@ class DataCollector(private val context: Context) {
     }
 
     suspend fun collectUsageStats(): Result<List<AppUsageStat>> = withContext(Dispatchers.IO) {
+        if (!com.smartphonedoctor.util.PermissionHelper.hasUsageStatsPermission(context)) {
+            Log.w("SmartPhoneDoctor", "Usage stats permission not granted, skipping")
+            return@withContext Result.Success(emptyList())
+        }
+        
         try {
             val usageStatsManager = context.getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager
             val calendar = Calendar.getInstance()
